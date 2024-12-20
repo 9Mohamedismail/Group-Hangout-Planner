@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import GetSessionData from "../components/GetSessionData";
 import JoinField from "../components/JoinField";
+import ErrorField from "../components/ErrorField";
 
 function GroupHangout() {
   const { sessionId } = useParams(); // Get the sessionId from the URL
@@ -31,7 +32,7 @@ function GroupHangout() {
 
   return (
     <div>
-      {!hasSession && <h1>{error}</h1>}
+      {!hasSession && error && <ErrorField error={error} />}
 
       {!hasJoined && hasSession && (
         <JoinField sessionData={sessionData} handleJoin={handleJoin} />

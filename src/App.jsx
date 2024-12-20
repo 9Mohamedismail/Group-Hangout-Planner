@@ -6,9 +6,9 @@ import GroupHangout from "./pages/GroupHangoutPage";
 function App() {
   return (
     <div>
-      <HomePage />
       <Routes>
         <Route path="join/:sessionId" element={<GroupHangout />} />
+        <Route path="/" element={<HomePage />} />
       </Routes>
     </div>
   );
