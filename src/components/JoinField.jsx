@@ -28,7 +28,7 @@ function JoinField({ sessionData, handleJoin }) {
               {sessionData.title}
             </h2>
             <p className="mt-6 text-pretty text-lg/8 text-gray-300">
-              Session Details
+              {sessionData.description}
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
               <button

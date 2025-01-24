@@ -11,7 +11,7 @@ function GetSessionData({ sessionId }) {
     if (!sessionId) return;
     const fetchSessionData = async () => {
       try {
-        const docRef = doc(db, "sessions", "Zwns8qfJzKTsh7ejZvjo");
+        const docRef = doc(db, "sessions", sessionId);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
