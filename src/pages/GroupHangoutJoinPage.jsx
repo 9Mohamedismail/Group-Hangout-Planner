@@ -4,9 +4,10 @@ import GetSessionData from "../components/GetSessionData";
 import JoinField from "../components/JoinField";
 import ErrorField from "../components/ErrorField";
 
-function GroupHangout() {
+function GroupHangoutJoinPage() {
   const { sessionId } = useParams(); // Get the sessionId from the URL
   const { sessionData, error, hasSession } = GetSessionData({ sessionId });
+  const navigate = useNavigate();
 
   const [hasJoined, setHasJoined] = useState(false);
   const [pastSessions, setPastSessions] = useState([]);
@@ -38,9 +39,9 @@ function GroupHangout() {
         <JoinField sessionData={sessionData} handleJoin={handleJoin} />
       )}
 
-      {hasJoined && <p>Welcome back! You're already in this session.</p>}
+      {hasJoined && navigate(`/session/${sessionId}`)}
     </div>
   );
 }
 
-export default GroupHangout;
+export default GroupHangoutJoinPage;
