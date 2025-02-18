@@ -1,6 +1,8 @@
 import React from "react";
 
 function SessionField({ sessionData }) {
+  console.log(sessionData.suggested_place);
+
   return (
     <div className="bg-gray-50 py-24 sm:py-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -19,9 +21,20 @@ function SessionField({ sessionData }) {
                 <p className="text-lg font-medium text-gray-900">
                   Suggested Place:
                 </p>
-                <p className="mt-2 text-sm text-gray-600">
-                  {sessionData.suggested_place}
-                </p>
+                {sessionData?.suggested_place && (
+                  <p className="mt-2 text-sm text-gray-600">
+                    {/* Only show name if it's not already part of formatted_address */}
+                    {!sessionData.suggested_place.formatted_address.includes(
+                      sessionData.suggested_place.name
+                    ) && (
+                      <>
+                        {sessionData.suggested_place.name}
+                        <br />
+                      </>
+                    )}
+                    {sessionData.suggested_place.formatted_address}
+                  </p>
+                )}
               </div>
               <div className="relative grow">
                 <div className=" inset-x-10 top-10 bottom-0 overflow-hidden rounded-t-lg border border-gray-700 bg-gray-900 shadow-xl">
