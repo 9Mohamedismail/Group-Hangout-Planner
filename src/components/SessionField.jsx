@@ -1,4 +1,6 @@
 import React from "react";
+import GoogleMapsAPI from "../components/GoogleMapsAPI";
+import { Wrapper } from "@googlemaps/react-wrapper";
 
 function SessionField({ sessionData }) {
   console.log(sessionData.suggested_place);
@@ -38,10 +40,15 @@ function SessionField({ sessionData }) {
               </div>
               <div className="relative grow">
                 <div className=" inset-x-10 top-10 bottom-0 overflow-hidden rounded-t-lg border border-gray-700 bg-gray-900 shadow-xl">
-                  <img
-                    className="h-full w-full object-cover object-top"
-                    src="https://developers.google.com/static/maps/images/landing/react-codelab-thumbnail.png"
-                  />
+                  <Wrapper
+                    apiKey="AIzaSyDQvgNhAA-AgImcWLe_lIPnC3Y91FBn1nU"
+                    libraries={["marker"]}
+                  >
+                    <GoogleMapsAPI
+                      lat={sessionData.suggested_place.location.lat}
+                      lng={sessionData.suggested_place.location.lng}
+                    />
+                  </Wrapper>
                 </div>
               </div>
             </div>

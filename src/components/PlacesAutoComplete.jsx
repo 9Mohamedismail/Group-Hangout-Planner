@@ -29,7 +29,7 @@ const PlacesAutocomplete = ({ onSelect }) => {
       onLoad={onLoad}
       onPlaceChanged={onPlaceChanged}
       options={{
-        fields: ["name", "formatted_address"],
+        fields: ["name", "formatted_address", "geometry"],
       }}
     >
       <div className="relative z-0 w-full mb-5 group">

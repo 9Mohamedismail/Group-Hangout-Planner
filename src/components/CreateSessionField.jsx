@@ -36,10 +36,29 @@ function CreateSessionField() {
       const sessionId = Date.now().toString(); // Generate a unique ID for the session
       const sessionRef = doc(db, "sessions", sessionId); // Reference for the new document
 
+      let suggestedPlace = formData.suggested_place;
+
+      // Extract only `location` and convert to plain object
+      let location = suggestedPlace?.geometry?.location;
+      let locationData = null;
+
+      if (location) {
+        locationData = {
+          lat:
+            typeof location.lat === "function" ? location.lat() : location.lat,
+          lng:
+            typeof location.lng === "function" ? location.lng() : location.lng,
+        };
+      }
+
       const sessionData = {
         [sessionId]: {
           ...formData,
-          //fileName: file ? file.name : null, // Optionally include the file name
+          suggested_place: {
+            name: suggestedPlace?.name || "",
+            formatted_address: suggestedPlace?.formatted_address || "",
+            location: locationData, // Store only location
+          },
           createdAt: new Date(),
         },
       };
@@ -48,8 +67,7 @@ function CreateSessionField() {
       await setDoc(sessionRef, sessionData);
 
       alert("Session created successfully!");
-      setFormData({ title: "", description: "" }); // Reset form data
-      //setFile(null); // Reset file
+      setFormData({ title: "", description: "", suggested_place: "" }); // Reset form data
       navigate(`/join/${sessionId}`);
     } catch (err) {
       console.error("Error creating session:", err);
