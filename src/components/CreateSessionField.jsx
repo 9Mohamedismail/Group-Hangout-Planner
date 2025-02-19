@@ -13,6 +13,7 @@ function CreateSessionField() {
   });
 
   const [error, setError] = useState(null); // State for errors
+  const [useGoogleAPI, setUseGoogleAPI] = useState(false);
 
   const handleChange = (e, maxLength) => {
     const { name, value } = e.target;
@@ -118,15 +119,71 @@ function CreateSessionField() {
         </label>
       </div>
 
-      <PlacesAutocomplete
-        onSelect={(place) =>
-          setFormData({
-            ...formData,
-            suggested_place: place,
-          })
-        }
-      />
+      <div>
+        <div className="inline-flex items-center space-x-2">
+          <label className="relative flex items-center cursor-pointer">
+            <input
+              id="checkbox"
+              type="checkbox"
+              checked={useGoogleAPI}
+              onChange={() => setUseGoogleAPI(!useGoogleAPI)}
+              className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
+            />
+            {/* Checkmark inside the checkbox */}
+            <span className="absolute inset-0 flex items-center justify-center opacity-0 peer-checked:opacity-100 text-white pointer-events-none">
+              <svg
+                className="h-3.5 w-3.5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                stroke="currentColor"
+                strokeWidth="1"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </span>
+          </label>
+          <label
+            htmlFor="checkbox"
+            className="font-medium text-lg text-gray-500 dark:text-gray-400"
+          >
+            Suggest a Physical Location (Enable Google Autofill)
+          </label>
+        </div>
 
+        {!useGoogleAPI ? (
+          <div className="relative z-0 w-full mb-5 group">
+            <input
+              type="text"
+              name="suggested_place"
+              id="sugessted_place"
+              className="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder="Enter a place (e.g., 'Discord' or 'Mike’s House')"
+              value={formData.suggested_place}
+              required
+              onChange={(e) => handleChange(e, 200)}
+            />
+            <label
+              htmlFor="suggested_place"
+              className="peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              Suggested Place
+            </label>
+          </div>
+        ) : (
+          <PlacesAutocomplete
+            onSelect={(place) =>
+              setFormData({
+                ...formData,
+                suggested_place: place,
+              })
+            }
+          />
+        )}
+      </div>
       <div className="relative z-0 w-full mb-5 group">
         <input
           type="file"
