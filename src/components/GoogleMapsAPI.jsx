@@ -5,7 +5,7 @@ const containerStyle = {
   height: "500px",
 };
 
-const MAP_ID = "f7c7c711bda89c6f";
+const MAP_ID = import.meta.env.VITE_GOOGLE_MAPS_MAP_ID;
 
 const GoogleMapsAPI = ({ lat, lng }) => {
   const center = { lat: lat, lng: lng };

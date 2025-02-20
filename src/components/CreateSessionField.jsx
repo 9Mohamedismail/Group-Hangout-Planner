@@ -13,7 +13,7 @@ function CreateSessionField() {
   });
 
   const [error, setError] = useState(null); // State for errors
-  const [useGoogleAPI, setUseGoogleAPI] = useState(false);
+  const [useGoogleAPI, setUseGoogleAPI] = useState(null);
 
   const handleChange = (e, maxLength) => {
     const { name, value } = e.target;
@@ -118,62 +118,74 @@ function CreateSessionField() {
           Session Description
         </label>
       </div>
+      <div className="flex items-center mb-5">
+        <label
+          htmlFor="inline-radio"
+          className="font-medium text-sm text-gray-500 dark:text-gray-400 mr-4"
+        >
+          Suggest a Physical Location?
+        </label>
 
-      <div>
-        <div className="inline-flex items-center space-x-2">
-          <label className="relative flex items-center cursor-pointer">
-            <input
-              id="checkbox"
-              type="checkbox"
-              checked={useGoogleAPI}
-              onChange={() => setUseGoogleAPI(!useGoogleAPI)}
-              className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
-            />
-            {/* Checkmark inside the checkbox */}
-            <span className="absolute inset-0 flex items-center justify-center opacity-0 peer-checked:opacity-100 text-white pointer-events-none">
-              <svg
-                className="h-3.5 w-3.5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                stroke="currentColor"
-                strokeWidth="1"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </span>
-          </label>
+        {/* Yes Option */}
+        <div className="flex items-center me-4">
+          <input
+            id="inline-radio"
+            type="radio"
+            name="inline-radio-group"
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 peer"
+            checked={useGoogleAPI === true}
+            onChange={() => setUseGoogleAPI(true)}
+          />
           <label
-            htmlFor="checkbox"
-            className="font-medium text-lg text-gray-500 dark:text-gray-400"
+            htmlFor="inline-radio"
+            className="ms-2 text-sm font-medium text-gray-500 dark:text-gray-400 peer-checked:text-blue-600 peer-focus:text-blue-600 cursor-pointer"
           >
-            Suggest a Physical Location (Enable Google Autofill)
+            Yes
           </label>
         </div>
 
-        {!useGoogleAPI ? (
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="text"
-              name="suggested_place"
-              id="sugessted_place"
-              className="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder="Enter a place (e.g., 'Discord' or 'Mike’s House')"
-              value={formData.suggested_place}
-              required
-              onChange={(e) => handleChange(e, 200)}
-            />
-            <label
-              htmlFor="suggested_place"
-              className="peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Suggested Place
-            </label>
-          </div>
-        ) : (
+        {/* No Option */}
+        <div className="flex items-center">
+          <input
+            id="inline-2-radio"
+            type="radio"
+            name="inline-radio-group"
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 peer"
+            checked={useGoogleAPI === false}
+            onChange={() => setUseGoogleAPI(false)}
+          />
+          <label
+            htmlFor="inline-2-radio"
+            className="ms-2 text-sm font-medium text-gray-500 dark:text-gray-400 peer-checked:text-blue-600 peer-focus:text-blue-600 cursor-pointer"
+          >
+            No
+          </label>
+        </div>
+      </div>
+
+      <div className="relative z-0 w-full mb-5 group">
+        {/* Text Input for Non-Google API Selection */}
+        <div style={{ display: useGoogleAPI ? "none" : "block" }}>
+          <input
+            type="text"
+            name="suggested_place"
+            id="suggested_place"
+            className="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=""
+            value={formData.suggested_place}
+            required
+            onChange={(e) => handleChange(e, 200)}
+          />
+          <label
+            htmlFor="suggested_place"
+            className="peer-focus:font-medium absolute text-lg text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          >
+            Enter a place (e.g., 'Discord' or 'Mike’s House')
+          </label>
+        </div>
+
+        {/* Google Places Autocomplete Component */}
+        <div style={{ display: useGoogleAPI ? "block" : "none" }}>
           <PlacesAutocomplete
             onSelect={(place) =>
               setFormData({
@@ -182,8 +194,9 @@ function CreateSessionField() {
               })
             }
           />
-        )}
+        </div>
       </div>
+
       <div className="relative z-0 w-full mb-5 group">
         <input
           type="file"
