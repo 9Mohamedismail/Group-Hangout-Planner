@@ -1,8 +1,8 @@
-import { db } from "./config/firebase";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import GroupHangoutJoinPage from "./pages/GroupHangoutJoinPage";
 import GroupHangoutSessionPage from "./pages/GroupHangoutSessionPage";
+import CreateSessionField from "./components/CreateSessionField";
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
           path="session/:sessionId"
           element={<GroupHangoutSessionPage />}
         />
+        <Route path="/create" element={<CreateSessionField />} />
       </Routes>
     </div>
   );

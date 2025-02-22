@@ -1,9 +1,10 @@
-import CreateSessionField from "../components/CreateSessionField";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const navigate = useNavigate();
   return (
     <div>
-      <CreateSessionField />
+      <button onClick={() => navigate("/create")}>Open Create Session</button>
     </div>
   );
 }
